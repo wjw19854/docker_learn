@@ -8,11 +8,25 @@ WORKDIR /app
 ADD . /app
 
 # Install any needed packages specified in requirements.txt
-
+ENV DEBIAN_FRONTEND noninteractive
 #RUN cd hue
+RUN cp -r .m2 /root/
+RUN cp -r .pip /root/
 RUN apt-get update -y
+RUN apt-get install software-properties-common  -y
+RUN echo oracle-java7-installer shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+RUN apt-get update -y
+RUN add-apt-repository ppa:webupd8team/java -y
+
+RUN apt-get update
+RUN apt-get install oracle-java7-installer -y
+RUN apt-get install oracle-java7-set-default -y
 #RUN apt-get install git -y
 #RUN git clone https://github.com/cloudera/hue.git
+#RUN add-apt-repository ppa:webupd8team/java
+#RUN apt-get update
+#RUN apt-get install oracle-java7-installer -y
+#RUN apt-get install oracle-java7-set-default -y
 RUN apt-get install python2.7-dev \
 make \
 libkrb5-dev \
